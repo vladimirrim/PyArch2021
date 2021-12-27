@@ -1,0 +1,38 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+
+type Review {
+    id: ID!
+    book_id: ID!
+    rating: Int!
+    review: String
+    created_at: String!
+    library_id: ID!
+}
+
+type ReviewResult {
+    success: Boolean!
+    errors: [String]
+    review: Review
+}
+
+type ReviewsResult {
+    success: Boolean!
+    errors: [String]
+    reviews: [Review]
+}
+
+type Query {
+    listReviews: ReviewsResult!
+    getReview(id: ID!): ReviewResult!
+    getBookReviews(book_id: ID!): ReviewsResult!
+}
+
+type Mutation {
+    createReview(book_id: ID!, rating: Int!, review: String, created_at: String, library_id: ID!): ReviewResult!
+    updateReview(id: ID!, book_id: ID, rating: Int, review: String): ReviewResult!
+    deleteReview(id: ID): ReviewResult!
+}

@@ -1,0 +1,48 @@
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type UserPermission {
+    id: ID!
+    user_id: String!
+    library_id: String!
+    permission_type: Int!
+}
+
+type BookPermission {
+    id: ID!
+    book_id: ID!
+    permission_type: Int!
+}
+
+type BookPermissionResult {
+    success: Boolean!
+    errors: [String]
+    permission: BookPermission
+}
+
+type BooksPermissionResult {
+    success: Boolean!
+    errors: [String]
+    permissions: [BookPermission]
+}
+
+type UserPermissionResult {
+    success: Boolean!
+    errors: [String]
+    permission: UserPermission
+}
+
+type Query {
+    listBookPermissions(book_id: ID!): BooksPermissionResult!
+}
+
+type Mutation {
+    createBookPermission(book_id: ID!, permission_type: Int!, library_id: ID!): BookPermissionResult!
+    updateBookPermission(id: ID!, permission_type: Int!, library_id: ID!): BookPermissionResult!
+    deleteBookPermission(id: ID, library_id: ID!): BookPermissionResult!
+    createUserPermission(user_id: ID!, library_id: ID!, permission_type: Int!, library_id: ID!): UserPermissionResult!
+    updateUserPermission(id: ID!, permission_type: Int!, library_id: ID!): UserPermissionResult!
+    deleteUserPermission(id: ID, library_id: ID!): UserPermissionResult!
+}
