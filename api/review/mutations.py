@@ -11,9 +11,9 @@ from api.review.models import Review
 @login_required
 def create_review_resolver(obj, info, book_id, rating, review, library_id):
     today = date.today()
-    if not permission_manager.check_write_permission(current_user.id, library_id):
+    if current_user.is_authenticated and not permission_manager.check_write_permission(current_user.id, library_id):
         return {"success": False, "errors": ["403"]}
-    rev = Review(book_id=book_id, rating=rating, review=review, created_at=today)
+    rev = Review(book_id=book_id, rating=rating, review=review, created_at=today, library_id=library_id)
     db.session.add(rev)
     db.session.commit()
     payload = {"success": True, "review": rev.to_dict()}
@@ -37,7 +37,7 @@ def update_review_resolver(obj, info, id, book_id, rating, review):
         return {"success": False, "errors": ["Invalid rating format"]}
     try:
         rev = Review.query.get(id)
-        if not permission_manager.check_update_permission(current_user.id, rev.library_id):
+        if current_user.is_authenticated and not permission_manager.check_update_permission(current_user.id, rev.library_id):
             return {"success": False, "errors": ["403"]}
         if rev:
             rev.book_id = book_id
@@ -56,7 +56,7 @@ def update_review_resolver(obj, info, id, book_id, rating, review):
 def delete_review_resolver(obj, info, id):
     try:
         review = Review.query.get(id)
-        if not permission_manager.check_update_permission(current_user.id, review.library_id):
+        if current_user.is_authenticated and not permission_manager.check_update_permission(current_user.id, review.library_id):
             return {"success": False, "errors": ["403"]}
         db.session.delete(review)
         db.session.commit()

@@ -21,14 +21,14 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
-    from .auth import auth as auth_blueprint
+    from api.auth.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
     return app
 
 
 app = create_app()
-permission_manager = PermissionManager()
+permission_manager = PermissionManager(db)
 google_books_api_manager = GoogleBooksAPIManager()
 login_manager = LoginManager()
 login_manager.init_app(app)

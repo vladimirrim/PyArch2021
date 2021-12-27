@@ -3,6 +3,9 @@ from argparse import ArgumentParser
 from api.book.models import User
 
 from api import app, login_manager
+from apps.book_app import books_server
+from apps.permission_app import permissions_server
+from apps.review_app import reviews_server
 
 
 def setup_auth_service():

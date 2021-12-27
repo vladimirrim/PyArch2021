@@ -21,12 +21,12 @@ mutation.set_field("createBookPermission", create_book_permission_resolver)
 mutation.set_field("updateBookPermission", update_book_permission_resolver)
 mutation.set_field("deleteBookPermission", delete_book_permission_resolver)
 
-type_defs = load_schema_from_path("api/permission/schemas/permissions_schema.graphql")
+type_defs = load_schema_from_path("api/permission/schemas/permission_schema.graphql")
 schema = make_executable_schema(type_defs, query, mutation, snake_case_fallback_resolvers)
 
 
 @app.route("/permissions", methods=["POST"])
-def books_server():
+def permissions_server():
     data = request.get_json()
 
     success, result = graphql_sync(schema,

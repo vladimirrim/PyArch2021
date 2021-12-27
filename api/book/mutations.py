@@ -40,7 +40,8 @@ def create_book_by_title_resolver(obj, info, title, library_id):
 
 def __create_book(author, title, description, library_id):
     today = date.today()
-    permission_manager.add_admin_permissions(current_user.id, library_id)
+    if current_user.is_authenticated:
+        permission_manager.add_admin_permissions(current_user.id, library_id)
     book = Book(library_id=library_id, title=title, author=author, description=description, created_at=today)
     db.session.add(book)
     db.session.commit()
@@ -63,7 +64,7 @@ def update_book_resolver(obj, info, id, title, author, description):
         return {"success": False, "errors": ["Invalid author format"]}
     try:
         book = Book.query.get(id)
-        if not permission_manager.check_update_permission(current_user.id, book.library_id):
+        if current_user.is_authenticated and not permission_manager.check_update_permission(current_user.id, book.library_id):
             return {"success": False, "errors": ["403"]}
         if book:
             book.title = title
@@ -82,7 +83,7 @@ def update_book_resolver(obj, info, id, title, author, description):
 def delete_book_resolver(obj, info, id):
     try:
         book = Book.query.get(id)
-        if not permission_manager.check_update_permission(current_user.id, book.library_id):
+        if current_user.is_authenticated and not permission_manager.check_update_permission(current_user.id, book.library_id):
             return {"success": False, "errors": ["403"]}
         db.session.delete(book)
         db.session.commit()

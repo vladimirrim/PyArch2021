@@ -25,4 +25,5 @@ class Book(db.Model):
                 "title": self.title,
                 "author": self.author,
                 "description": self.description,
+                "library_id": self.library_id,
                 "created_at": str(self.created_at.strftime('%d-%m-%Y'))}

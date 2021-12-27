@@ -2,13 +2,15 @@ REVIEW_REQUEST = """mutation CreateReview {
   createReview(
     book_id: 2,
     rating: 2
-    review:"Some Description") {
+    review:"Some Description",
+    library_id: 1) {
     review {
       id
       book_id
       rating
       review
       created_at
+      library_id
     }
     success
     errors

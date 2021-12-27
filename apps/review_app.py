@@ -16,7 +16,7 @@ mutation.set_field("createReview", create_review_resolver)
 mutation.set_field("updateReview", update_review_resolver)
 mutation.set_field("deleteReview", delete_review_resolver)
 
-type_defs = load_schema_from_path("../api/review/schemas/review_schema.graphql")
+type_defs = load_schema_from_path("api/review/schemas/review_schema.graphql")
 schema = make_executable_schema(type_defs, query, mutation, snake_case_fallback_resolvers)
 
 

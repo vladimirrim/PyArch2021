@@ -19,7 +19,7 @@ mutation.set_field("createBookByISBN", create_book_by_isbn_resolver)
 mutation.set_field("updateBook", update_book_resolver)
 mutation.set_field("deleteBook", delete_book_resolver)
 
-type_defs = load_schema_from_path("../api/book/schemas/book_schema.graphql")
+type_defs = load_schema_from_path("api/book/schemas/book_schema.graphql")
 schema = make_executable_schema(type_defs, query, mutation, snake_case_fallback_resolvers)
 
 

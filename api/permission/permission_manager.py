@@ -1,14 +1,16 @@
-from api import db
-from api.permission.models import UserPermission, BookPermission
 from api.permission.types import UserPermissionType, BookPermissionType
 
 
 class PermissionManager:
 
+    def __init__(self, db):
+        self.db = db
+
     def add_admin_permissions(self, user_id, library_id):
+        from api.permission.models import UserPermission
         permission = UserPermission(user_id=user_id, library_id=library_id, permission_type=UserPermissionType.ADMIN)
-        db.session.add(permission)
-        db.session.commit()
+        self.db.session.add(permission)
+        self.db.session.commit()
 
     def check_admin_permissions(self, user_id, library_id):
         user_permission = self.get_user_permission(user_id, library_id)
@@ -43,6 +45,7 @@ class PermissionManager:
             return True
 
     def get_user_permission(self, user_id, library_id):
+        from api.permission.models import UserPermission
         permissions = UserPermission.query.filter_by(user_id=user_id, library_id=library_id)
         if len(permissions) > 0:
             return permissions[0].permission_type
@@ -50,6 +53,7 @@ class PermissionManager:
             return UserPermissionType.READ_ONLY
 
     def get_book_permission(self, book_id):
+        from api.permission.models import BookPermission
         permissions = BookPermission.query.filter_by(book_id=book_id)
         if len(permissions) > 0:
             return permissions[0].permission_type

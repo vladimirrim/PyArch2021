@@ -5,11 +5,11 @@ description:"Some Description",
 library_id: 1) {
 book {
   id
+  library_id
   title
   author
   description
   created_at
-  library_id
 }
 success
 errors}}"""
